@@ -119,7 +119,7 @@
     "note": "National Information Security and Safety Authority (LibyaCERT's parent). Posts rarely (newest Sep 2024 when added); the 60-day age cap keeps old posts off the page.",
     "id": "nissa_gov_defense",
     "tier": "Local Incident / Breaking News",
-    "focus": "Government cyber defence mandates, national standard alerts and encryption compliance."
+    "focus": "Architectural cyber defence mandates, national standard alerts and encryption compliance."
   },
   {
     "id": "libya_observer_tech",
@@ -139,9 +139,9 @@
   {
     "id": "lana_state_wire",
     "name": "LANA (Libyan News Agency)",
-    "url": "https://lana.gov.ly/rss/ar/",
+    "url": "https://lana.gov.ly/rss/en/",
     "type": "Regional",
-    "lang": "ar",
+    "lang": "en",
     "enabled": true,
     "region": "Libya",
     "tier": "Local Incident / Breaking News",
@@ -149,7 +149,7 @@
     "require_any": [
       "cyber"
     ],
-    "note": "Official state news agency, Arabic feed (an English feed exists at /rss/en/; one language only, to avoid duplicates). General news, so only cyber items are kept."
+    "note": "Official state news agency, English feed (an Arabic feed exists at /rss/ar/; one language only, to avoid duplicates). General news, so only cyber items are kept."
   },
   {
     "id": "security_dot_com_cti",
@@ -224,6 +224,48 @@
       "cyber"
     ],
     "note": "Africa-wide AI news; only cybersecurity items are kept, and regions come from the headline."
+  },
+  {
+    "id": "al_jazeera_mena_intel",
+    "name": "Al Jazeera",
+    "url": "https://www.aljazeera.com/xml/rss/all.xml",
+    "type": "Regional",
+    "lang": "en",
+    "enabled": true,
+    "tier": "Geopolitical & Regional Escalation Layer",
+    "focus": "State infrastructure breaches, regional cyber espionage and mobile spyware.",
+    "require_any": [
+      "cyber"
+    ],
+    "note": "Site-wide English feed (there is no cyber section feed); only cybersecurity items are kept, and regions come from the headline."
+  },
+  {
+    "id": "al_arabiya_tech_mena",
+    "name": "Al Arabiya",
+    "url": "https://www.alarabiya.net/technology/cybersecurity-privacy",
+    "type": "Regional",
+    "lang": "ar",
+    "enabled": false,
+    "tier": "Geopolitical & Regional Escalation Layer",
+    "focus": "Data leaks, banking security infrastructure and threat attribution in North Africa.",
+    "require_any": [
+      "cyber"
+    ],
+    "note": "Disabled 2026-10-19: the site answers 403 to every non-browser request, including its RSS paths. We do not disguise our User-Agent."
+  },
+  {
+    "id": "sky_news_arabia_tech",
+    "name": "Sky News Arabia",
+    "url": "https://www.skynewsarabia.com/web/rss/technology.xml",
+    "type": "Regional",
+    "lang": "ar",
+    "enabled": true,
+    "tier": "Geopolitical & Regional Escalation Layer",
+    "focus": "National infrastructure vulnerabilities (grids, telecoms) and regional cyber defence.",
+    "require_any": [
+      "cyber"
+    ],
+    "note": "Technology section feed (Arabic); only cybersecurity items are kept."
   },
   {
     "name": "The Cyber Express",
