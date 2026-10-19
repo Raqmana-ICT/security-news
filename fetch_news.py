@@ -285,7 +285,7 @@ def entry_to_item(entry, feed, now, tagger, filt=ALLOW_ALL):
         "source": feed["name"],
         "type": feed["type"],
         "lang": feed["lang"],
-        "region": tagger.tag(title, excerpt),
+        "region": feed.get("region") or tagger.tag(title, excerpt),   # Libyan outlets are Libya by definition
         "published": iso(published),
         "date_estimated": estimated,
         "excerpt": excerpt,
@@ -438,7 +438,7 @@ def run(feeds, tagger, state, session, now, filt=ALLOW_ALL, kev=frozenset()):
         for item in got:
             item = dict(item, also_reported_by=[])
             item["cves"] = sorted(set(item.get("cves", [])) | set(cves_in(f"{item['title']} {item['excerpt']}")))
-            item["region"] = tagger.tag(item["title"], item["excerpt"])
+            item["region"] = feed.get("region") or tagger.tag(item["title"], item["excerpt"])
             if filt.keep(item, feed):
                 items.append(item)
     cutoff = iso(now - timedelta(days=MAX_AGE_DAYS))

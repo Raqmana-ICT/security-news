@@ -3,7 +3,8 @@
     "Word lists that feeds.json can apply per feed ('require_any' keeps only items matching at least one list; 'exclude_any' drops items matching any list).",
     "English entries are whole words, case-insensitive; a trailing * matches any ending (exploit* = exploit, exploited, exploitation). Multi-word entries match across whitespace.",
     "Arabic entries match anywhere in the normalised text (diacritics removed, أ إ آ as ا).",
-    "Matched against the headline and the excerpt."
+    "Matched against the headline and the excerpt.",
+    "cyber: a broad cybersecurity gate for general Libyan news sources (central bank, newspapers), whose 'attack' or 'breach' usually means something else."
   ],
   "lists": {
     "threat": {
@@ -110,6 +111,54 @@
         "polling"
       ],
       "ar": []
+    },
+    "cyber": {
+      "en": [
+        "cyber*",
+        "hack*",
+        "ransomware",
+        "phishing",
+        "malware",
+        "spyware",
+        "data breach*",
+        "data leak*",
+        "leaked data",
+        "electronic fraud",
+        "online fraud",
+        "card fraud",
+        "information security",
+        "digital security",
+        "NISSA",
+        "CERT",
+        "LibyaCERT",
+        "DDoS",
+        "denial of service",
+        "fake page*",
+        "impersonat*",
+        "zero-day*",
+        "vulnerabilit*",
+        "cybersecurity"
+      ],
+      "ar": [
+        "سيبران",
+        "اختراق",
+        "قرصنة",
+        "برمجية خبيثة",
+        "برمجيات خبيثة",
+        "فدية",
+        "تصيد",
+        "احتيال",
+        "امن المعلومات",
+        "صفحات وهمية",
+        "صفحات مزيفة",
+        "صفحة وهمية",
+        "انتحال",
+        "تسريب بيانات",
+        "تسريب البيانات",
+        "ثغرة",
+        "ثغرات",
+        "الامن الرقمي"
+      ]
     }
   }
 }

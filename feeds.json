@@ -71,6 +71,51 @@
     ]
   },
   {
+    "name": "Central Bank of Libya",
+    "url": "https://cbl.gov.ly/feed/",
+    "type": "Regional",
+    "lang": "ar",
+    "enabled": true,
+    "region": "Libya",
+    "require_any": [
+      "cyber"
+    ],
+    "note": "Official CBL news (Arabic). Mostly the governor's meetings, so only cyber, fraud and fake-page items are kept."
+  },
+  {
+    "name": "Libya Herald",
+    "url": "https://libyaherald.com/feed/",
+    "type": "Regional",
+    "lang": "en",
+    "enabled": true,
+    "region": "Libya",
+    "require_any": [
+      "cyber"
+    ],
+    "note": "Libyan general news (English); only cybersecurity items are kept."
+  },
+  {
+    "name": "Libya Security Monitor",
+    "url": "https://libyasecuritymonitor.com/feed/",
+    "type": "Regional",
+    "lang": "en",
+    "enabled": true,
+    "region": "Libya",
+    "require_any": [
+      "cyber"
+    ],
+    "note": "Libyan security news, mostly political and military; only cybersecurity items are kept."
+  },
+  {
+    "name": "NISSA",
+    "url": "https://nissa.gov.ly/feed/",
+    "type": "Regional",
+    "lang": "ar",
+    "enabled": true,
+    "region": "Libya",
+    "note": "National Information Security and Safety Authority (LibyaCERT's parent). Posts rarely (newest Sep 2024 when added); the 60-day age cap keeps old posts off the page."
+  },
+  {
     "name": "The Cyber Express",
     "url": "https://thecyberexpress.com/feed/",
     "type": "Regional",

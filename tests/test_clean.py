@@ -298,3 +298,15 @@ def test_stories_older_than_the_cap_are_dropped(tagger):
         _item("Ancient", "https://ex.com/a", "F0", "2025-01-01T10:00:00Z")]}}
     news, *_ = fn.run([feed], tagger, cached, _FakeSession({feed["url"]: (304, b"")}), NOW)
     assert [i["title"] for i in news["items"]] == ["Fresh"]
+
+
+def test_feed_level_region_and_cyber_gate(tagger, filt):
+    feed = dict(FEED, region="Libya", require_any=["cyber"], lang="ar")
+    rss = """<rss version="2.0"><channel><title>CBL</title>
+<item><title>المحافظ يبحث تعزيز التعاون في المدفوعات</title><link>https://cbl.gov.ly/1</link><pubDate>Sat, 18 Oct 2026 10:00:00 GMT</pubDate></item>
+<item><title>تحذير من صفحات وهمية تنتحل صفة المصرف</title><link>https://cbl.gov.ly/2</link><pubDate>Sat, 18 Oct 2026 09:00:00 GMT</pubDate></item>
+<item><title>Ceasefire breach reported near Sirte</title><link>https://cbl.gov.ly/3</link><pubDate>Sat, 18 Oct 2026 08:00:00 GMT</pubDate></item>
+</channel></rss>"""
+    items = fn.parse_feed(rss.encode(), feed, NOW, tagger, filt)
+    assert [i["title"] for i in items] == ["تحذير من صفحات وهمية تنتحل صفة المصرف"]
+    assert items[0]["region"] == "Libya"
