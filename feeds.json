@@ -1,0 +1,63 @@
+[
+  {
+    "name": "BleepingComputer",
+    "url": "https://www.bleepingcomputer.com/feed/",
+    "type": "Global",
+    "lang": "en",
+    "enabled": true
+  },
+  {
+    "name": "The Hacker News",
+    "url": "https://feeds.feedburner.com/TheHackersNews",
+    "type": "Global",
+    "lang": "en",
+    "enabled": true
+  },
+  {
+    "name": "Krebs on Security",
+    "url": "https://krebsonsecurity.com/feed/",
+    "type": "Global",
+    "lang": "en",
+    "enabled": true
+  },
+  {
+    "name": "CISA",
+    "url": "https://www.cisa.gov/cybersecurity-advisories/all.xml",
+    "type": "Global",
+    "lang": "en",
+    "enabled": true,
+    "note": "All CISA cybersecurity advisories (alerts, ICS advisories, analysis reports)."
+  },
+  {
+    "name": "Dark Reading DR Global",
+    "url": "https://www.darkreading.com/rss.xml?keyword=middle-east-africa",
+    "type": "Regional",
+    "lang": "en",
+    "enabled": true,
+    "note": "DR Global Middle East & Africa section (keyword filter on the main feed). Publishes about weekly."
+  },
+  {
+    "name": "TahawulTech",
+    "url": "https://www.tahawultech.com/tag/security/feed/",
+    "type": "Regional",
+    "lang": "en",
+    "enabled": true,
+    "note": "The site has no security category feed (category/security returns 404); the 'security' tag feed is the closest."
+  },
+  {
+    "name": "Intelligent CIO Middle East",
+    "url": "https://www.intelligentcio.com/me/category/cats/intelligent-technology/enterprise-security/feed/",
+    "type": "Regional",
+    "lang": "en",
+    "enabled": true,
+    "note": "Enterprise Security category of the Middle East edition."
+  },
+  {
+    "name": "The Cyber Express",
+    "url": "https://thecyberexpress.com/feed/",
+    "type": "Regional",
+    "lang": "en",
+    "enabled": false,
+    "note": "Disabled 2026-10-19: Cloudflare answers 403 to every non-browser request, including ours. We do not disguise our User-Agent; re-check later or ask the publisher to allow RaqmanaSecurityNews."
+  }
+]

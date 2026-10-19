@@ -1,0 +1,31 @@
+# GitHub disables scheduled workflows in public repositories after 60 days without repository activity,
+# and Pages deployments do not count as activity. Once a month this re-enables both scheduled workflows
+# through the API, which restarts that 60-day clock. It never commits or pushes, so it cannot loop.
+name: Keep schedule alive
+
+on:
+  schedule:
+    - cron: "41 6 1 * *"   # 06:41 UTC on the 1st of each month
+  workflow_dispatch:
+
+permissions:
+  actions: write
+
+concurrency:
+  group: keepalive
+  cancel-in-progress: false
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Re-enable the scheduled workflows
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          for wf in update.yml keepalive.yml; do
+            gh api --method PUT "repos/$REPO/actions/workflows/$wf/enable"
+            echo "enabled $wf"
+          done

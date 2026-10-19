@@ -1,0 +1,13 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Generated on each run (published to Pages, never committed)
+site/news.json
+site/news.tmp
+state.json
+
+.DS_Store
