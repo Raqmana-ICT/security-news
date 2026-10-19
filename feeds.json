@@ -92,7 +92,10 @@
     "require_any": [
       "cyber"
     ],
-    "note": "Libyan general news (English); only cybersecurity items are kept."
+    "note": "Libyan general news (English); only cybersecurity items are kept.",
+    "id": "libya_herald_tech",
+    "tier": "Local Incident / Breaking News",
+    "focus": "Bilateral agreements, international tech frameworks and regulatory shifts (cyber items only)."
   },
   {
     "name": "Libya Security Monitor",
@@ -113,7 +116,114 @@
     "lang": "ar",
     "enabled": true,
     "region": "Libya",
-    "note": "National Information Security and Safety Authority (LibyaCERT's parent). Posts rarely (newest Sep 2024 when added); the 60-day age cap keeps old posts off the page."
+    "note": "National Information Security and Safety Authority (LibyaCERT's parent). Posts rarely (newest Sep 2024 when added); the 60-day age cap keeps old posts off the page.",
+    "id": "nissa_gov_defense",
+    "tier": "Local Incident / Breaking News",
+    "focus": "Government cyber defence mandates, national standard alerts and encryption compliance."
+  },
+  {
+    "id": "libya_observer_tech",
+    "name": "The Libya Observer",
+    "url": "https://libyaobserver.ly",
+    "type": "Regional",
+    "lang": "en",
+    "enabled": false,
+    "region": "Libya",
+    "tier": "Local Incident / Breaking News",
+    "focus": "Domestic breaches, public utility outages, local cyber telemetry.",
+    "require_any": [
+      "cyber"
+    ],
+    "note": "Disabled 2026-10-19: the site publishes no RSS/Atom feed (/feed and /rss.xml return 404, no feed link in the page). The pipeline does not scrape pages; enable once a feed exists."
+  },
+  {
+    "id": "lana_state_wire",
+    "name": "LANA (Libyan News Agency)",
+    "url": "https://lana.gov.ly/rss/ar/",
+    "type": "Regional",
+    "lang": "ar",
+    "enabled": true,
+    "region": "Libya",
+    "tier": "Local Incident / Breaking News",
+    "focus": "Official state wire announcements and telecom alert updates.",
+    "require_any": [
+      "cyber"
+    ],
+    "note": "Official state news agency, Arabic feed (an English feed exists at /rss/en/; one language only, to avoid duplicates). General news, so only cyber items are kept."
+  },
+  {
+    "id": "security_dot_com_cti",
+    "name": "Security.com Threat Intelligence",
+    "url": "https://www.security.com/rss/v1/blogs/rss.xml/221",
+    "type": "Industry",
+    "lang": "en",
+    "enabled": true,
+    "tier": "Tactical Threat Intelligence",
+    "focus": "APTs and malware campaigns, including those targeting the Libyan energy sector.",
+    "note": "Symantec / Broadcom threat intelligence blog (global research; Libya-specific items appear only when published)."
+  },
+  {
+    "id": "group_ib_research_hub",
+    "name": "Group-IB",
+    "url": "https://www.group-ib.com/feed/blogfeed/",
+    "type": "Industry",
+    "lang": "en",
+    "enabled": true,
+    "tier": "Tactical Threat Intelligence",
+    "focus": "E-payment fraud, mobile banking vulnerabilities and North African banking vectors.",
+    "require_any": [
+      "threat"
+    ],
+    "exclude_any": [
+      "press_release"
+    ],
+    "note": "Group-IB blog (global research). Its feed's dates have no time zone; they are read as UTC. Spanish-language duplicates (URLs ending -es/) are dropped.",
+    "exclude_url": [
+      "-es/"
+    ]
+  },
+  {
+    "id": "netscout_cti_libya",
+    "name": "NETSCOUT",
+    "url": "https://www.netscout.com/rss.xml",
+    "type": "Industry",
+    "lang": "en",
+    "enabled": true,
+    "tier": "Tactical Threat Intelligence",
+    "focus": "Volumetric network attack trends and DDoS statistics.",
+    "require_any": [
+      "threat"
+    ],
+    "exclude_any": [
+      "press_release"
+    ],
+    "note": "Site-wide NETSCOUT feed (mostly product marketing), so only threat items are kept. The per-country DDoS statistics (Cyber Threat Horizon) are a dashboard, not a feed, and cannot be ingested."
+  },
+  {
+    "id": "gia_gov_frameworks",
+    "name": "General Information Authority (GIA) Libya",
+    "url": "https://gia.gov.ly",
+    "type": "Regional",
+    "lang": "ar",
+    "enabled": false,
+    "region": "Libya",
+    "tier": "Macro Resiliency & Strategy",
+    "focus": "National data security frameworks and government e-infrastructure defence guidelines.",
+    "note": "Disabled 2026-10-19: the HTTPS certificate does not match gia.gov.ly, and no feed was found. Certificate checks are never switched off."
+  },
+  {
+    "id": "africa_ai_news_regional",
+    "name": "Africa AI News",
+    "url": "https://www.africaainews.com/feed",
+    "type": "Regional",
+    "lang": "en",
+    "enabled": true,
+    "tier": "Macro Resiliency & Strategy",
+    "focus": "North African tech governance, national strategy and regulatory cyber alignment.",
+    "require_any": [
+      "cyber"
+    ],
+    "note": "Africa-wide AI news; only cybersecurity items are kept, and regions come from the headline."
   },
   {
     "name": "The Cyber Express",

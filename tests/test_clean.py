@@ -310,3 +310,9 @@ def test_feed_level_region_and_cyber_gate(tagger, filt):
     items = fn.parse_feed(rss.encode(), feed, NOW, tagger, filt)
     assert [i["title"] for i in items] == ["تحذير من صفحات وهمية تنتحل صفة المصرف"]
     assert items[0]["region"] == "Libya"
+
+
+def test_dates_without_time_zone_are_read_as_utc():
+    dt, est = fn.entry_date({"published": "Wed, 14 Oct 2026 08:01:12"}, NOW)
+    assert (dt.isoformat(), est) == ("2026-10-14T08:01:12+00:00", False)
+    assert fn.entry_date({"published": "not a date"}, NOW) == (NOW, True)

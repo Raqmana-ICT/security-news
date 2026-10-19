@@ -12,6 +12,7 @@ half of the enabled feeds succeed, or when no items are left.
 """
 import argparse
 import difflib
+import email.utils
 import hashlib
 import html
 import json
@@ -266,6 +267,18 @@ def entry_date(entry, now):
             if dt.year < 2000:
                 continue
             return min(dt, now), False
+    # Some feeds write RFC 822 dates without a time zone ("Wed, 14 Oct 2026 08:01:12"), which feedparser leaves
+    # unparsed; read those as UTC rather than treating every story as brand new
+    for key in ("published", "updated"):
+        raw = entry.get(key)
+        if isinstance(raw, str) and raw.strip():
+            try:
+                dt = email.utils.parsedate_to_datetime(raw.strip())
+            except (TypeError, ValueError, IndexError):
+                continue
+            dt = dt.replace(tzinfo=timezone.utc) if dt.tzinfo is None else dt.astimezone(timezone.utc)
+            if dt.year >= 2000:
+                return min(dt, now), False
     return now, True
 
 
