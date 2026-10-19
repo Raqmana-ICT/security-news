@@ -1,0 +1,115 @@
+{
+  "_help": [
+    "Word lists that feeds.json can apply per feed ('require_any' keeps only items matching at least one list; 'exclude_any' drops items matching any list).",
+    "English entries are whole words, case-insensitive; a trailing * matches any ending (exploit* = exploit, exploited, exploitation). Multi-word entries match across whitespace.",
+    "Arabic entries match anywhere in the normalised text (diacritics removed, أ إ آ as ا).",
+    "Matched against the headline and the excerpt."
+  ],
+  "lists": {
+    "threat": {
+      "en": [
+        "exploit*",
+        "breach*",
+        "ransomware",
+        "vulnerab*",
+        "attack*",
+        "malware",
+        "phishing",
+        "CVE",
+        "zero-day*",
+        "0-day*",
+        "hack*",
+        "threat actor*",
+        "spyware",
+        "backdoor*",
+        "botnet*",
+        "DDoS",
+        "data leak*",
+        "leaked",
+        "compromis*",
+        "fraud*",
+        "scam*",
+        "extort*",
+        "APT",
+        "cyberattack*",
+        "intrusion*",
+        "espionage",
+        "stolen",
+        "infostealer*",
+        "wiper*",
+        "deepfake*"
+      ],
+      "ar": [
+        "اختراق",
+        "ثغرة",
+        "ثغرات",
+        "برمجية خبيثة",
+        "برمجيات خبيثة",
+        "احتيال",
+        "تصيد",
+        "فدية",
+        "هجوم",
+        "هجمات",
+        "تسريب",
+        "ابتزاز",
+        "تجسس"
+      ]
+    },
+    "press_release": {
+      "en": [
+        "appoint*",
+        "promot*",
+        "partner of the year",
+        "unveil*",
+        "launch*",
+        "sign*",
+        "award*",
+        "wins",
+        "celebrat*",
+        "partnership*",
+        "partners with",
+        "MoU",
+        "opens",
+        "expands",
+        "hires",
+        "names new",
+        "joins",
+        "booth",
+        "sponsor*",
+        "report finds",
+        "report reveals",
+        "report shows",
+        "survey*",
+        "study finds",
+        "research finds",
+        "redefin*",
+        "to highlight",
+        "participat*",
+        "navigating",
+        "in the age of",
+        "webinar*",
+        "whitepaper*",
+        "what CISOs need to know",
+        "thought leader*",
+        "showcas*",
+        "GITEX"
+      ],
+      "ar": [
+        "تعيين",
+        "تطلق",
+        "توقع",
+        "شراكة",
+        "جائزة"
+      ]
+    },
+    "us_elections": {
+      "en": [
+        "election*",
+        "midterm*",
+        "campaign officials",
+        "polling"
+      ],
+      "ar": []
+    }
+  }
+}

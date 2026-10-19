@@ -26,10 +26,16 @@
     "type": "Global",
     "lang": "en",
     "enabled": true,
-    "note": "All CISA cybersecurity advisories (alerts, ICS advisories, analysis reports)."
+    "note": "All CISA cybersecurity advisories, minus medical-device advisories and US election items.",
+    "exclude_any": [
+      "us_elections"
+    ],
+    "exclude_url": [
+      "/ics-medical-advisories/"
+    ]
   },
   {
-    "name": "Dark Reading DR Global",
+    "name": "Dark Reading",
     "url": "https://www.darkreading.com/rss.xml?keyword=middle-east-africa",
     "type": "Regional",
     "lang": "en",
@@ -42,7 +48,13 @@
     "type": "Regional",
     "lang": "en",
     "enabled": true,
-    "note": "The site has no security category feed (category/security returns 404); the 'security' tag feed is the closest."
+    "note": "The site has no security category feed (category/security returns 404); the 'security' tag feed is the closest. Trade press: only items naming a threat are kept, and press-release items are dropped (filters.json).",
+    "require_any": [
+      "threat"
+    ],
+    "exclude_any": [
+      "press_release"
+    ]
   },
   {
     "name": "Intelligent CIO Middle East",
@@ -50,7 +62,13 @@
     "type": "Regional",
     "lang": "en",
     "enabled": true,
-    "note": "Enterprise Security category of the Middle East edition."
+    "note": "Enterprise Security category of the Middle East edition. Trade press: only items naming a threat are kept, and press-release items are dropped (filters.json).",
+    "require_any": [
+      "threat"
+    ],
+    "exclude_any": [
+      "press_release"
+    ]
   },
   {
     "name": "The Cyber Express",

@@ -47,6 +47,10 @@ jobs:
       - name: Fetch the feeds
         run: python fetch_news.py --out site/news.json --state state.json
 
+      # Design fixtures (real headlines with shifted dates) carry a "_fixture" key and must never be published
+      - name: Refuse fixture data
+        run: python -c "import json, sys; d = json.load(open('site/news.json')); sys.exit('fixture data in site/news.json' if '_fixture' in d else 0)"
+
       - name: Save feed state
         if: always() && hashFiles('state.json') != ''
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0

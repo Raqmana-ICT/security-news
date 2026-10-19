@@ -6,35 +6,153 @@
     "ar_words: written WITHOUT the article (ال). Each may carry one attached prefix from ar_prefixes and one suffix from ar_suffixes.",
     "ar_stems: like ar_words, but a suffix is REQUIRED (the bare stem is not a word), e.g. ليب -> ليبي / ليبية / الليبيين.",
     "Arabic is normalised before matching: diacritics and tatweel removed, and أ إ آ written as ا. Write terms with plain ا.",
-    "A term only matches when the letters before and after it are not Arabic letters (\\b does not work for Arabic)."
+    "A term only matches when the letters before and after it are not Arabic letters (\\b does not work for Arabic).",
+    "match: 'title' means only the headline is checked for that region (an excerpt that merely mentions a place is not enough)."
   ],
-  "order": ["Libya", "MENA"],
-  "ar_prefixes": ["و", "ف", "ب", "ل", "ال", "وال", "بال", "لل"],
-  "ar_suffixes": ["ي", "ية", "يين", "يون"],
+  "order": [
+    "Libya",
+    "MENA"
+  ],
+  "ar_prefixes": [
+    "و",
+    "ف",
+    "ب",
+    "ل",
+    "ال",
+    "وال",
+    "بال",
+    "لل"
+  ],
+  "ar_suffixes": [
+    "ي",
+    "ية",
+    "يين",
+    "يون"
+  ],
   "regions": {
     "Libya": {
-      "en": ["Libya", "Libyan", "Tripoli", "Benghazi", "Misrata", "Misurata", "Sabha"],
-      "ar_words": ["ليبيا", "طرابلس", "بنغازي", "مصراتة", "سبها"],
-      "ar_stems": ["ليب"]
+      "en": [
+        "Libya",
+        "Libyan",
+        "Tripoli",
+        "Benghazi",
+        "Misrata",
+        "Misurata",
+        "Sabha"
+      ],
+      "ar_words": [
+        "ليبيا",
+        "طرابلس",
+        "بنغازي",
+        "مصراتة",
+        "سبها"
+      ],
+      "ar_stems": [
+        "ليب"
+      ],
+      "en_exclude": [
+        "Tripoli, Lebanon",
+        "Tripoli in Lebanon",
+        "Lebanon's Tripoli"
+      ],
+      "ar_exclude": [
+        "طرابلس لبنان",
+        "طرابلس اللبنانية",
+        "طرابلس الشام",
+        "طرابلس في لبنان"
+      ]
     },
     "MENA": {
       "en": [
-        "Middle East", "MENA", "North Africa", "GCC", "Gulf",
-        "Saudi", "Saudi Arabia", "KSA", "UAE", "Emirates", "Emirati", "Dubai", "Abu Dhabi",
-        "Qatar", "Qatari", "Kuwait", "Kuwaiti", "Bahrain", "Bahraini", "Oman", "Omani",
-        "Egypt", "Egyptian", "Tunisia", "Tunisian", "Algeria", "Algerian", "Morocco", "Moroccan",
-        "Jordan", "Jordanian", "Lebanon", "Lebanese", "Iraq", "Iraqi", "Iran", "Iranian",
-        "Yemen", "Yemeni", "Sudan", "Sudanese", "Syria", "Syrian", "Palestine", "Palestinian",
-        "Mauritania", "Mauritanian"
+        "Middle East",
+        "MENA",
+        "North Africa",
+        "GCC",
+        "Gulf",
+        "Saudi",
+        "Saudi Arabia",
+        "KSA",
+        "UAE",
+        "Emirates",
+        "Emirati",
+        "Dubai",
+        "Abu Dhabi",
+        "Qatar",
+        "Qatari",
+        "Kuwait",
+        "Kuwaiti",
+        "Bahrain",
+        "Bahraini",
+        "Oman",
+        "Omani",
+        "Egypt",
+        "Egyptian",
+        "Tunisia",
+        "Tunisian",
+        "Algeria",
+        "Algerian",
+        "Morocco",
+        "Moroccan",
+        "Jordan",
+        "Jordanian",
+        "Lebanon",
+        "Lebanese",
+        "Iraq",
+        "Iraqi",
+        "Iran",
+        "Iranian",
+        "Yemen",
+        "Yemeni",
+        "Sudan",
+        "Sudanese",
+        "Syria",
+        "Syrian",
+        "Palestine",
+        "Palestinian",
+        "Mauritania",
+        "Mauritanian",
+        "Al Jazeera"
       ],
-      "en_exclude": ["Gulf of Mexico", "Gulf Coast", "Gulf of America", "Gulf Stream"],
+      "en_exclude": [
+        "Gulf of Mexico",
+        "Gulf Coast",
+        "Gulf of America",
+        "Gulf Stream"
+      ],
       "ar_words": [
-        "شرق الاوسط", "شمال افريقيا", "خليج", "امارات", "دبي", "قطر", "كويت", "بحرين",
-        "عمان", "مصر", "تونس", "جزائر", "مغرب", "اردن", "لبنان", "عراق", "ايران", "يمن",
-        "سودان", "سوريا", "فلسطين", "موريتانيا"
+        "شرق الاوسط",
+        "شمال افريقيا",
+        "خليج",
+        "امارات",
+        "دبي",
+        "قطر",
+        "كويت",
+        "بحرين",
+        "عمان",
+        "مصر",
+        "تونس",
+        "جزائر",
+        "مغرب",
+        "اردن",
+        "لبنان",
+        "عراق",
+        "ايران",
+        "يمن",
+        "سودان",
+        "سوريا",
+        "فلسطين",
+        "موريتانيا"
       ],
-      "ar_stems": ["سعود", "سور", "موريتان"],
-      "ar_exclude": ["خليج المكسيك", "خليج امريكا"]
+      "ar_stems": [
+        "سعود",
+        "سور",
+        "موريتان"
+      ],
+      "ar_exclude": [
+        "خليج المكسيك",
+        "خليج امريكا"
+      ],
+      "match": "title"
     }
   }
 }

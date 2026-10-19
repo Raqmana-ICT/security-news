@@ -65,6 +65,20 @@ def test_jordan_inside_url_like_string_does_not_break(tag):
     assert tag("Jordan") == "MENA"
 
 
+def test_mena_needs_the_headline(tag):
+    # An excerpt that merely mentions a place does not make a story regional
+    assert tag("ShinyHunters extorted Boeing spin-off", "A teenager from Amman, Jordan, was detained") == "Global"
+    assert tag("Candiru spyware targeted Al Jazeera journalists") == "MENA"
+    # Libya is checked on headline + excerpt
+    assert tag("Bank phishing wave", "Customers in Benghazi received fake SMS") == "Libya"
+
+
+def test_tripoli_lebanon_is_not_libya(tag):
+    assert tag("Clinic in Tripoli, Lebanon hit by ransomware") == "MENA"
+    assert tag("هجوم على مستشفى في طرابلس لبنان") == "MENA"
+    assert tag("Tripoli bank hit by ransomware") == "Libya"
+
+
 def test_libya_wins_over_mena(tag):
     assert tag("Tripoli and Cairo agree on cyber cooperation, says Egypt") == "Libya"
     assert tag("مصر وليبيا توقعان اتفاقية") == "Libya"

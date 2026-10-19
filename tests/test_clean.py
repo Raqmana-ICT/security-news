@@ -104,7 +104,7 @@ def test_parse_feed(tagger):
     assert by_title["No date at all"]["date_estimated"] is True
     assert by_title["No date at all"]["published"] == fn.iso(NOW)
     assert set(good) == {"id", "title", "url", "source", "type", "lang", "region", "published",
-                         "date_estimated", "excerpt", "also_reported_by"}               # nothing beyond the allowed fields
+                         "date_estimated", "excerpt", "also_reported_by", "cves", "kev"}   # nothing beyond the allowed fields
 
 
 def test_parse_feed_rejects_garbage(tagger):
@@ -121,9 +121,10 @@ def test_per_feed_limit(tagger):
 
 
 # ---------------------------------------------------------------- de-duplication
-def _item(title, url, source, published, estimated=False):
+def _item(title, url, source, published, estimated=False, cves=()):
     return {"id": url, "title": title, "url": url, "source": source, "type": "Global", "lang": "en", "region": "Global",
-            "published": published, "date_estimated": estimated, "excerpt": "", "also_reported_by": []}
+            "published": published, "date_estimated": estimated, "excerpt": "", "also_reported_by": [],
+            "cves": list(cves), "kev": False}
 
 
 def test_dedupe_by_link_keeps_earliest_and_credits_others():
@@ -226,3 +227,74 @@ def test_future_and_old_dates():
     entry = {"published_parsed": (NOW + timedelta(days=3)).timetuple()}
     assert fn.entry_date(entry, NOW) == (NOW, False)
     assert fn.entry_date({"published_parsed": (1970, 1, 1, 0, 0, 0, 0, 1, 0)}, NOW) == (NOW, True)
+
+
+# ---------------------------------------------------------------- filters, CVE grouping, KEV
+@pytest.fixture(scope="module")
+def filt():
+    return fn.ItemFilter(json.loads((ROOT / "filters.json").read_text(encoding="utf-8")))
+
+
+TRADE = {"name": "Trade", "url": "u", "type": "Regional", "lang": "en", "require_any": ["threat"], "exclude_any": ["press_release"]}
+CISA = {"name": "CISA", "url": "u", "type": "Global", "lang": "en", "exclude_any": ["us_elections"], "exclude_url": ["/ics-medical-advisories/"]}
+
+
+@pytest.mark.parametrize("title, keep", [
+    ("Ransomware gang hits Gulf logistics firm", True),
+    ("Attackers exploit flaw in UAE government portal", True),
+    ("AI, security and technology sovereignty reshape enterprise priorities", False),   # no threat named
+    ("Vendor appoints new regional VP after record breach-response year", False),     # press release
+    ("Hamad International Airport launches biometric boarding", False),
+    ("Company unveils ransomware protection suite", False),                           # PR even with a threat word
+])
+def test_trade_press_gate(filt, title, keep):
+    item = _item(title, "https://x.example/a", "Trade", "2026-10-18T10:00:00Z")
+    assert filt.keep(item, TRADE) is keep
+
+
+def test_cisa_exclusions(filt):
+    medical = _item("Thermo Fisher Torrent Suite", "https://www.cisa.gov/news-events/ics-medical-advisories/icsma-26-1", "CISA", "2026-10-18T10:00:00Z")
+    election = _item("Cyber Threat Actors Target Election and Campaign Officials", "https://www.cisa.gov/a", "CISA", "2026-10-18T10:00:00Z")
+    ics = _item("Siemens SCALANCE flaws", "https://www.cisa.gov/news-events/ics-advisories/icsa-26-1", "CISA", "2026-10-18T10:00:00Z")
+    assert not filt.keep(medical, CISA) and not filt.keep(election, CISA) and filt.keep(ics, CISA)
+    assert fn.ALLOW_ALL.keep(medical, {})                                             # feeds without rules keep everything
+
+
+def test_same_cve_is_one_story():
+    items = [_item("BeyondTrust zero-day exploited", "https://a.com/1", "A", "2026-10-18T10:00:00Z", cves=["CVE-2026-102764"]),
+             _item("CISA adds BeyondTrust flaw to KEV", "https://b.com/2", "B", "2026-10-18T08:00:00Z", cves=["CVE-2026-102764", "CVE-2026-1"]),
+             _item("Unrelated Fortinet bug", "https://c.com/3", "C", "2026-10-18T07:00:00Z", cves=["CVE-2025-61624"])]
+    out = fn.dedupe(items)
+    assert len(out) == 2
+    bt = next(i for i in out if "CVE-2026-102764" in i["cves"])
+    assert bt["source"] == "B" and [r["source"] for r in bt["also_reported_by"]] == ["A"]
+    assert bt["cves"] == ["CVE-2026-1", "CVE-2026-102764"]
+
+
+def test_cves_in():
+    assert fn.cves_in("Patch cve-2026-102764 and CVE-2025-61624 now; CVE-2025-61624 again") == ["CVE-2025-61624", "CVE-2026-102764"]
+    assert fn.cves_in("no ids here, CVE-26-1") == []
+
+
+def test_kev_flag(tagger):
+    feed = _feeds(1)[0]
+    cached = {feed["url"]: {"etag": None, "last_modified": None, "items": [
+        dict(_item("Exploited bug", "https://ex.com/k", "F0", "2026-10-18T10:00:00Z"), excerpt="CVE-2026-102764 is under attack", cves=[]),
+        _item("Other bug", "https://ex.com/o", "F0", "2026-10-18T09:00:00Z", cves=["CVE-2020-1"])]}}
+    news, *_ = fn.run([feed], tagger, cached, _FakeSession({feed["url"]: (304, b"")}), NOW, kev=frozenset({"CVE-2026-102764"}))
+    flags = {i["title"]: i["kev"] for i in news["items"]}
+    assert flags == {"Exploited bug": True, "Other bug": False}
+
+
+def test_cisa_table_junk_removed():
+    assert fn.clean_text("Successful exploitation could allow access. CVSS Vendor Equipment v3 8.1 CISA Malcolm 6 Vuln") \
+        == "Successful exploitation could allow access."
+
+
+def test_stories_older_than_the_cap_are_dropped(tagger):
+    feed = _feeds(1)[0]
+    cached = {feed["url"]: {"etag": None, "last_modified": None, "items": [
+        _item("Fresh", "https://ex.com/f", "F0", "2026-10-18T10:00:00Z"),
+        _item("Ancient", "https://ex.com/a", "F0", "2025-01-01T10:00:00Z")]}}
+    news, *_ = fn.run([feed], tagger, cached, _FakeSession({feed["url"]: (304, b"")}), NOW)
+    assert [i["title"] for i in news["items"]] == ["Fresh"]
