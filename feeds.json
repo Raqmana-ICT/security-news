@@ -116,10 +116,11 @@
     "lang": "ar",
     "enabled": true,
     "region": "Libya",
-    "note": "National Information Security and Safety Authority (LibyaCERT's parent). Posts rarely (newest Sep 2024 when added); the 60-day age cap keeps old posts off the page.",
+    "note": "National Information Security and Safety Authority (LibyaCERT's parent). 'official': its latest posts go to the separate 'official' list in news.json with their real dates (no age cap), shown in the site's LibyaCERT panel, never as news.",
     "id": "nissa_gov_defense",
     "tier": "Local Incident / Breaking News",
-    "focus": "Architectural cyber defence mandates, national standard alerts and encryption compliance."
+    "focus": "Architectural cyber defence mandates, national standard alerts and encryption compliance.",
+    "official": true
   },
   {
     "id": "libya_observer_tech",

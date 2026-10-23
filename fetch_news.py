@@ -37,6 +37,7 @@ MAX_BYTES = 15_000_000   # a feed larger than this is refused (CISA embeds full 
 PER_FEED = 15            # newest items kept per feed
 MAX_ITEMS = 80           # items in news.json
 MAX_AGE_DAYS = 60        # older stories are dropped, however few remain
+OFFICIAL_ITEMS = 5       # latest posts kept from 'official' feeds (no age cap; shown apart from the news)
 EXCERPT_WORDS = 30
 TITLE_SIMILARITY = 0.9   # difflib ratio at or above which two headlines are the same story
 
@@ -435,7 +436,7 @@ def dedupe(items):
 # ---------------------------------------------------------------- run
 def run(feeds, tagger, state, session, now, filt=ALLOW_ALL, kev=frozenset()):
     enabled = [f for f in feeds if f.get("enabled")]
-    ok, failed, items, new_state, how = [], [], [], {}, {}
+    ok, failed, items, official, new_state, how = [], [], [], [], {}, {}
     for feed in enabled:
         try:
             got, entry, how[feed["name"]] = fetch_feed(session, feed, state.get(feed["url"], {}), now, tagger, filt)
@@ -447,6 +448,11 @@ def run(feeds, tagger, state, session, now, filt=ALLOW_ALL, kev=frozenset()):
             continue
         ok.append(feed["name"])
         new_state[feed["url"]] = entry
+        # Official sources (e.g. NISSA) are not news: their latest posts form a separate, dated list
+        if feed.get("official"):
+            official += [{k: i[k] for k in ("title", "url", "source", "lang", "published", "date_estimated")}
+                         for i in got if filt.keep(i, feed)]
+            continue
         # re-tag and re-filter cached items too, so edits to regions.json, filters.json and feeds.json apply at once
         for item in got:
             item = dict(item, also_reported_by=[])
@@ -459,7 +465,9 @@ def run(feeds, tagger, state, session, now, filt=ALLOW_ALL, kev=frozenset()):
     for item in merged:   # on CISA's Known Exploited Vulnerabilities list
         item["kev"] = bool(kev & set(item["cves"]))
     merged.sort(key=lambda i: i["published"], reverse=True)
-    news = {"updated": iso(now), "sources_ok": ok, "sources_failed": failed, "items": merged[:MAX_ITEMS]}
+    official.sort(key=lambda i: i["published"], reverse=True)
+    news = {"updated": iso(now), "sources_ok": ok, "sources_failed": failed, "items": merged[:MAX_ITEMS],
+            "official": official[:OFFICIAL_ITEMS]}
     return news, new_state, enabled, how
 
 

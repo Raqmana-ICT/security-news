@@ -316,3 +316,19 @@ def test_dates_without_time_zone_are_read_as_utc():
     dt, est = fn.entry_date({"published": "Wed, 14 Oct 2026 08:01:12"}, NOW)
     assert (dt.isoformat(), est) == ("2026-10-14T08:01:12+00:00", False)
     assert fn.entry_date({"published": "not a date"}, NOW) == (NOW, True)
+
+
+def test_official_feed_goes_to_its_own_list_without_age_cap(tagger):
+    news_feed, nissa = _feeds(2)
+    nissa = dict(nissa, name="NISSA", official=True)
+    cached = {
+        news_feed["url"]: {"etag": None, "last_modified": None, "items": [_item("Fresh news", "https://ex.com/n", "F0", "2026-10-18T10:00:00Z")]},
+        nissa["url"]: {"etag": None, "last_modified": None, "items": [
+            _item(f"NISSA post {n}", f"https://nissa.example/{n}", "NISSA", f"2024-0{n}-01T10:00:00Z") for n in range(1, 8)]},
+    }
+    session = _FakeSession({news_feed["url"]: (304, b""), nissa["url"]: (304, b"")})
+    news, *_ = fn.run([news_feed, nissa], tagger, cached, session, NOW)
+    assert [i["title"] for i in news["items"]] == ["Fresh news"]                      # never mixed into the news
+    assert [o["title"] for o in news["official"]] == [f"NISSA post {n}" for n in (7, 6, 5, 4, 3)]   # newest 5, 2024 kept
+    assert set(news["official"][0]) == {"title", "url", "source", "lang", "published", "date_estimated"}
+    assert "NISSA" in news["sources_ok"]
