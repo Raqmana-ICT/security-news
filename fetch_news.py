@@ -33,7 +33,7 @@ import requests
 ROOT = Path(__file__).resolve().parent
 USER_AGENT = "RaqmanaSecurityNews/1.0 (+https://raqmana.ly/en/blog/)"
 TIMEOUT = 10             # seconds, per request
-MAX_BYTES = 5_000_000    # a feed larger than this is refused
+MAX_BYTES = 15_000_000   # a feed larger than this is refused (CISA embeds full advisories: ~6 MB)
 PER_FEED = 15            # newest items kept per feed
 MAX_ITEMS = 80           # items in news.json
 MAX_AGE_DAYS = 60        # older stories are dropped, however few remain
@@ -331,7 +331,7 @@ def download(session, url, headers):
                 for chunk in r.iter_content(65536):
                     body += chunk
                     if len(body) > MAX_BYTES:
-                        raise FeedError("feed larger than 5 MB")
+                        raise FeedError("feed larger than 15 MB")
                 return r.status_code, r.headers, bytes(body)
         except (requests.RequestException, requests.HTTPError) as exc:
             if attempt == 2:
